@@ -13,6 +13,7 @@ import { TypeEventModule } from './modules/type-event/type-event.module';
 import { LieuModule } from './modules/lieu/lieu.module';
 import { CourModule } from './modules/cour/cour.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TaskModule } from './modules/task/task.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { AuthModule } from './modules/auth/auth.module';
     EventModule,
     TypeEventModule,
     LieuModule,
-    CourModule    
+    CourModule,
+    TaskModule    
   ],
   controllers: [AppController],
   providers: [AppService],

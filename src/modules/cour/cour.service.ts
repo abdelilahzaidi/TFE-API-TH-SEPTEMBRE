@@ -21,7 +21,7 @@ export class CourService {
       async createLevel(dto: CreateCourDTO): Promise<CourEntity> {
         try {
             const lieu = await this.lieuService.findLieuById(dto.lieuId); // Récupérez le programme associé
-
+            
             const cour = new CourEntity();
             cour.contenu=dto.contenu
             cour.lieu=lieu      

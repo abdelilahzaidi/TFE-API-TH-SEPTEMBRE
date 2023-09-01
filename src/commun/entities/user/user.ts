@@ -1,13 +1,14 @@
 import { Exclude } from "class-transformer";
 import { UserGender } from "src/commun/enums/gender.enum";
 import { UserStatus } from "src/commun/enums/status.enum";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { LevelEntity } from "../level/level";
 import { RoleEntity } from "../role/role";
 import { PeriodEntity } from "../period/period";
 import { TeamEntity } from "../team/team";
 import { EventEntity } from "../event/event";
 import { CourEntity } from "../cour/cour";
+import { TaskEntity } from "../task/task";
 
 @Entity('users')
 export class UserEntity{
@@ -79,5 +80,8 @@ export class UserEntity{
         inverseJoinColumn: { name: 'cour_id', referencedColumnName: 'id' }
     })
     cours: EventEntity[];
+
+    @OneToMany(() => TaskEntity, task => task.id)
+    tasks: TaskEntity[];
     
 }
