@@ -7,11 +7,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/shared/security/jwt.strategy';
 import { RoleModule } from '../role/role.module';
 import { StatusGuard } from 'src/shared/security/status.guard';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from 'src/commun/entities/user/user';
+import { RoleEntity } from 'src/commun/entities/role/role';
 
 
 
 @Module({
-  imports:[    
+  imports:[  
+    TypeOrmModule.forFeature([UserEntity, RoleEntity]) ,
     PassportModule.register({
       defaultStrategy :'jwt'
     }),
@@ -25,6 +29,6 @@ import { StatusGuard } from 'src/shared/security/status.guard';
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports:[AuthService,JwtStrategy,PassportModule]
+  exports:[PassportModule]
 })
 export class AuthModule {}

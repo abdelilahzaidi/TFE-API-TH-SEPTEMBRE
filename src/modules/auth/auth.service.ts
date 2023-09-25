@@ -45,7 +45,7 @@ async signup(signUpDto: SignUpDTO): Promise<UserEntity> {
 }
 
     //Login user
-    async login(dto: LoginDTO): Promise<{ token: string }> {
+    async login(dto: LoginDTO): Promise<{ token: string, user: any }> {
         const { email, password } = dto;
 
         const user = await this.userService.findOneByEmail(email);
@@ -65,6 +65,6 @@ async signup(signUpDto: SignUpDTO): Promise<UserEntity> {
         const token = await JwtFeature.assignJwtToken(user.id, this.jwtService);
         console.log(token);
 
-        return { token };
+        return { token, user };
     }
 }

@@ -43,8 +43,10 @@ export class UserService {
   async createUser(dto: UserCreateDTO): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash('Zah14$01471983', 12);
 
+    console.log(dto)
     try {
       const level = await  this.levelService.findLevelByGrade(dto.grade)
+      console.log(level)
         if (!level) {
           throw new NotFoundException(`Level with ID ${dto.grade} not found.`);
         }
@@ -82,8 +84,41 @@ export class UserService {
     return this.userRepository.save(data);
 }
 
-  async update(id: number, data): Promise<any> {
-    return this.userRepository.update(id, data);
+  async update(id: number, dto: UserCreateDTO): Promise<any> {
+    console.log(dto)
+    try {
+      const level = await  this.levelService.findLevelByGrade(dto.grade)
+      console.log(level)
+        if (!level) {
+          throw new NotFoundException(`Level with ID ${dto.grade} not found.`);
+        }
+     
+      const user = new UserEntity();
+      user.first_name = dto.first_name;
+      user.last_name = dto.last_name;
+      user.email = dto.email;
+      user.gender = dto.gender;
+      user.adress = dto.adress;
+      user.birthDate = dto.birthDate;
+      //user.password = hashedPassword;
+      user.attributionDate = new Date();
+      user.actif = dto.actif;
+      user.gsm = dto.gsm;
+      user.level=level
+      user.status=dto.status
+      console.log('user modifié', this.userRepository.update(id,user))
+      return this.userRepository.update(id,user);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        error,
+        "Une erreur est survenue lors de la modification de l'utilisateur.",
+      );
+    }
+
+
+
+
+    //return this.userRepository.update(id, data);
   }
 
   async delete(id: number): Promise<any> {
@@ -96,7 +131,7 @@ export class UserService {
   }
   //Find a user by id
   async findOneById(id: number): Promise<any> {
-    return this.userRepository.findOne({ where: { id } });
+    return this.userRepository.findOne({ where: { id }, relations: ["level"] });
   }
 
   async findUserStatusByUserId(id: any) {

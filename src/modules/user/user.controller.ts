@@ -16,6 +16,12 @@ export class UserController {
         return await this.userService.all()
     }
 
+    
+    @Get(':id')   
+    async getUserById(@Param('id') id: number) {
+        return this.userService.findOneById(id);
+    }
+
     @Post()
     async createUser(@Body() dto : UserCreateDTO):Promise<UserEntity>{        
         console.log('DTO in controler ',dto)
